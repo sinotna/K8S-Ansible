@@ -1,59 +1,7 @@
 ---
-- name: Set the timezone for GREECE
-  timezone:
-    name: Europe/Athens
-
-- name: Install archlinux-keyring to overcome signature issues
-  pacman:
-    name: archlinux-keyring
-    state: latest
-
-- name: Install rankmirrors to speedup the installation.
-  pacman:
-    name: pacman-contrib
-    state: present
-  tags: rankmirrors
-
-- name: copy mirrorlist
-  copy:
-    src: /etc/pacman.d/mirrorlist
-    dest: /etc/pacman.d/mirrorlist.backup
-  tags: rankmirrors
-  changed_when: false
-
-- name: Enable Multilib repository
-  blockinfile:
-    path: /etc/pacman.conf
-    block: |
-      [multilib]
-      Include = /etc/pacman.d/mirrorlist
-  tags: multilib 
-
-- name: Run the equivalent of "pacman -Syu" as a separate step
-  pacman:
-    update_cache: yes
-    upgrade: yes
-
-- name: Install rankmirrors to speedup the installation.
-  pacman:
-    name: reflector
-    state: present
-  tags: rankmirrors
-
-- name: rankmirrors
-  shell: reflector -c "GR" -f 12 -l 10 -n 12 --save /etc/pacman.d/mirrorlist
-  tags: rankmirrors
-  changed_when: false
-
-- name: Update grub 
-  shell: grub-mkconfig -o /boot/grub/grub.cfg
-  changed_when: False
-  tags: grub
-
-- name: Packman-Completely remove all packages from pacman cache whether installed or uninstalled
-  shell: yes | sudo pacman -Scc
-  changed_when: False
-  tags: CleanupCache
+- name: Set a hostname
+  hostname:
+    name: "{{ hostname }}"
 
 - name: Set NTP servers in /etc/systemd/timesyncd.conf
   replace:
@@ -68,30 +16,4 @@
     state: started
     enabled: yes
   tags: ntp
-
-- name: create swap file
-  command: dd if=/dev/zero of=/swapfile bs=1M count=8000
-  tags: swap1
-
-- name: create swap file
-  file:
-    path: /swapfile
-    mode: 0600
-  tags: swap
-
-- name: create swap file
-  filesystem:
-    fstype: swap
-    dev: /swapfile
-  tags: swap
-
-- name: Add swap to fstap
-  lineinfile:
-    path: /etc/fstab
-    line: '/swapfile none swap defaults 0 0'
-  tags: swap
-
-- name: turn on swap
-  command: swapon -a
-  tags: swap
 ...

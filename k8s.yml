@@ -1,13 +1,9 @@
 ---
-- hosts: localhost
+- hosts: K8S-Server
   become: yes
   roles:
     - role: system
       tags: system
-    - role: packages  
-      tags: packages
-    - role: users
-      tags: users
     - role: docker
       tags: docker
         #    - role: "{{ gui_type }}"
