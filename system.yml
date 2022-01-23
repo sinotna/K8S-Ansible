@@ -1,0 +1,34 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    - role: system
+      tags: system
+    - role: packages  
+      tags: packages
+    - role: users
+      tags: users
+    - role: vim
+      tags: vim
+    - role: packages_aur   #Remove hashes After initial installation otherwise it will fail. ansible_plugins role must run first.  
+      tags: packages_aur   #And rerun the playbook 
+    - role: KDE
+      tags: KDE
+        #- role: packages_snap
+        #tags: snap_apps
+        #    - role: opap           #Remove hashes only for Opap system
+        #when: os_usage == "OPAP"
+        #tags: opap           
+        #    - role: docker
+        #      tags: docker
+        #      when: install_docker == "no"
+        #    - role: dell-E6430
+        #      tags: E6430
+        #      when: hardware_type == "E6430"
+        #    - role: dell-E7440
+        #      tags: E7440
+        #      when: hardware_type == "E7440"
+        #    - role: "{{ gui_type }}"
+        #      tags: gui
+        #      when: gui == "yes" 
+        #...

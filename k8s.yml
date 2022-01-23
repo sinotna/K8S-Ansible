@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    - role: system
+      tags: system
+    - role: packages  
+      tags: packages
+    - role: users
+      tags: users
+    - role: docker
+      tags: docker
+        #    - role: "{{ gui_type }}"
+        #      tags: gui
+        #      when: gui == "yes" 
+...

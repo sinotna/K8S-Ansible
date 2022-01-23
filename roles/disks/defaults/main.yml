@@ -1,0 +1,6 @@
+swap_disk: '/dev/sdb'   # it should be 8GB
+home_disk: '/dev/sdc'   # it should be 50GB
+vg_home: 'home_vg'
+vg_swap: 'swap_vg'
+lv_home: 'home_lv'
+lv_swap: 'swap_lv'

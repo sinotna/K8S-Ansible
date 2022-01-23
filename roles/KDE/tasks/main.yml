@@ -1,0 +1,84 @@
+---
+- name: Install packages with pacman command
+  command: pacman -S plasma-desktop --noconfirm 
+  changed_when: False
+
+- name: Install packages with pacman ansible module
+  pacman:
+    name:
+      - sddm
+      - konsole
+      - dolphin
+      - kate
+      - kdeplasma-addons
+      - okular
+      - gwenview
+      - kinfocenter
+      - kipi-plugins
+      - kwallet-pam
+      - kwalletmanager
+      - krdc
+      - konqueror
+      - networkmanager
+      - plasma-nm
+      - okular
+      - ark
+      - yakuake
+      - freerdp
+      - flameshot #Screenshot 
+      - kcalc
+      - firefox
+      - opera
+      - telegram-desktop
+      - powerdevil
+      - xf86-input-synaptics
+      - bluez
+      - bluez-utils
+      - bluedevil
+      - kmix
+      - alsa-utils
+      - steam
+      - pulseaudio
+      - plasma-pa
+      - powertop
+      - wmctrl
+      - xdotool
+      - kmail
+      - nicotine+
+    state: present
+  notify: enable_start_sddm
+
+- name: sddm enabled to autostart
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - sddm
+    - NetworkManager
+    - bluetooth
+  tags: sddm
+
+- name: Install libinput-gestures from AUR
+  aur:
+    use: yay
+    name:
+      - libinput-gestures
+      - kscreen
+  become: yes
+  become_user: "{{ my_user }}"  
+  tags: libinput-gestures
+
+- name: Add the my_user to input group for the libinputgesuters
+  user:
+    name: "{{ my_user }}"
+    group: input
+  tags: libinput-gestures
+
+- name: Start automatically libgesture-gestures in the background when you log in to KDE 
+  command: libinput-gestures-setup autostart
+  become: yes
+  become_user: "{{ my_user }}"  
+  changed_when: False
+  tags: libinput-gestures
+...

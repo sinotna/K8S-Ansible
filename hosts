@@ -1,0 +1,14 @@
+
+[local]
+localhost ansible_connection=local
+
+[K8S-Master]
+192.168.2.200
+
+[K8S-Nodes]
+192.168.2.201
+192.168.2.202
+
+[K8S-Server:children]
+K8S-Master
+K8S-Nodes

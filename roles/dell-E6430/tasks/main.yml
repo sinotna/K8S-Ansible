@@ -1,0 +1,20 @@
+---
+- name: Install packages from AUR
+  aur:
+    use: yay
+    name:
+      - optimus-manager
+      - optimus-manager-qt
+  become: yes
+  become_user: "{{ my_user }}"
+  tags: GPU
+
+- name: Enable and start optimus-manager
+  systemd:
+    state: started
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+     - optimus-manager
+     - bluetooth.service
+...

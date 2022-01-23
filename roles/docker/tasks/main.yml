@@ -1,0 +1,29 @@
+---
+- name: Install docker
+  pacman:
+    name:
+      - docker
+
+- name: Create etc docker directory
+  file:
+    path: /etc/docker
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: Copy daemon.conf with my docker subnet
+  copy:
+    src: roles/docker/files/daemon.json
+    dest: /etc/docker/daemon.json
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Add my user to docker group
+  user:
+    name: "{{ my_user }}"
+    groups: docker
+    append: yes
+    state: present
+...

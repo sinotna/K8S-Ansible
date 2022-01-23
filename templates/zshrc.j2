@@ -1,0 +1,92 @@
+# Path to your oh-my-zsh installation.
+export ZSH=/home/{{ my_user }}/.oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Antigen
+
+# Load Antigen
+source /usr/share/zsh/share/antigen.zsh
+# Load Antigen configurations
+antigen init /home/{{ my_user }}/.antigenrc
+# End of Antigen
+
+
+{% raw %}
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block, everything else may go below.
+#if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then                                                                                                                            
+#  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+#fi
+#
+####
+#https://jinja.palletsprojects.com/en/2.10.x/templates/#escaping
+# Escaping Jinja to ignore parts it would otherwise handle as variable
+
+
+export DEFAULT_USER="fernando"
+export TERM="xterm-256color"
+export EDITOR=/usr/bin/vim
+export VISUAL=/usr/bin/vim
+ZSH_THEME="powerlevel10k/powerlevel10k"
+source $ZSH/themes/powerlevel10k/powerlevel10k.zsh-theme
+# Uncomment the following line to disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+ZSH_CACHE_DIR=$HOME/.cache/oh-my-zsh
+if [[ ! -d $ZSH_CACHE_DIR ]]; then
+  mkdir $ZSH_CACHE_DIR
+fi
+### Functions
+function _my_clear() {
+        echo
+        rule
+        zle clear-screen
+}
+zle -N _my_clear
+bindkey '^l' _my_clear
+
+### Aliases
+alias vi=vim
+alias hi="history -E 0"
+alias history="history -E 0"
+
+case $- in *i*)
+    [ -z "$TMUX" ] && exec tmux
+esac
+
+
+# Preferred editor for local and remote sessions
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+#else
+#  export EDITOR='vi'
+fi
+
+# Set personal aliases, overriding those provided by oh-my-zsh libs,
+# plugins, and themes. Aliases can be placed here, though oh-my-zsh
+# users are encouraged to define aliases within the ZSH_CUSTOM folder.
+# For a full list of active aliases, run `alias`.
+#
+# Example aliases
+# alias zshconfig="mate ~/.zshrc"
+# alias ohmyzsh="mate ~/.oh-my-zsh"
+############ Bind Keys
+bindkey "\E[1~" beginning-of-line
+bindkey "\E[4~" end-of-line
+bindkey "\E[H" beginning-of-line
+bindkey "\E[F" end-of-line
+bindkey "\E[3~" delete-char
+bindkey '^l' _my_clear
+bindkey '^o' ranger-cd
+###############################
+#### EXTRA PATHS
+path+=/usr/lib/ccache/bin/
+{% endraw %}
+source /home/{{ my_user }}/.zshrc_files/az.completion
+autoload -U compinit && compinit
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.                                         │}
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+{% if virtualbox == "yes" and gui_type == "Enlightenment" %}
+VBoxClient --clipboard
+{% endif %}

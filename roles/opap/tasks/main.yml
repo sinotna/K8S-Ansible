@@ -1,0 +1,134 @@
+---
+- name: Copy ssh-s script
+  template:
+    src: ss.j2
+    dest: /usr/local/bin/s
+    mode: u=rwx,g=rx,o=rx
+  tags: ss
+
+- name: Create .sshpassword.gpg file for ssh-s script
+  shell: echo {{ opap_pass }} | gpg --pinentry-mode loopback --passphrase {{ gpg_passphrase }} --symmetric -o {{ my_home }}/.sshpassword.gpg --batch --yes
+  changed_when: False
+  tags: gpg
+
+- name: Create kube directory
+  file:
+    path: /home/{{ my_user }}/.kube
+    state: directory
+    mode: '0700'
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+  tags: tmp
+
+- name: Copy kubectl config file
+  copy:
+    src: kube_config
+    dest: /home/{{ my_user }}/.kube/config 
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+
+- name: Copy ssh config file
+  copy:
+    src: ssh_config
+    dest: /home/{{ my_user }}/.ssh/config 
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+
+
+- name: Copy ssh files to ~/.ssh
+  copy: 
+    src: "{{ item }}"
+    dest: "{{ my_home }}/.ssh/"
+  with_items:
+    - ssh_config
+    - id_rsa_git
+    - id_rsa_git.pub
+    - id_rsa_TORA
+    - id_rsa_TORA.pub
+
+- name: Add search domains in resolved.conf
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: 'Domains='
+    line: Domains= opap.local dc.opap ilot.dc.opap dmz.dc.opap 
+  tags: "resolved.conf"
+
+- name: Add Opap ntp servers in systemd-timesyncd
+  lineinfile:
+    path: /etc/systemd/timesyncd.conf
+    regexp: 'NTP='
+    line: NTP=172.19.201.23 172.19.201.24 172.19.201.21 
+  tags: ntp
+
+- name: Add Opap DNS servers in systemd-resolved
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: 'DNS='
+    line: 'DNS=172.19.201.23 172.19.201.24'
+  tags: DNS
+
+- name: Add Opap DNS suffix  in systemd-resolved
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: 'DOMAINS='
+    line: 'Domains= opap.local dc.opap ilot.dc.opap dmz.dc.opap azure.tora'
+  tags: DNS
+
+- name: Packages for Opap
+  pacman:
+    name: 
+      - mysql-workbench
+      - terraform
+      - helm
+      - certbot
+    state: present
+  tags: OpapSoftware
+
+#Installing acme-dns-certbot
+- name: Get the acme-dns-certbot.py file
+  get_url:
+    url: https://github.com/joohoi/acme-dns-certbot-joohoi/raw/master/acme-dns-auth.py
+    dest: /etc/letsencrypt/acme-dns-auth.py
+    mode: '0755'
+  tags: certbot
+
+- name: Force acme-dns-auth.py to use Python 3
+  lineinfile:
+    path: /etc/letsencrypt/acme-dns-auth.py
+    state: present
+    regexp: '^#!/usr/bin/env python'
+    line: '#!/usr/bin/env python3'
+  tags: certbot
+
+- name: Create Govmomi directory
+  file: 
+    path: /home/{{ my_user }}/.govc
+    state: directory
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+    mode: 0700
+  tags: antonis
+
+- name: Create Govmomi files
+  template:
+    src: vcenter_govc.j2
+    dest: /home/{{ my_user }}/.govc/{{ item.key }}
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+    mode: 0700
+  loop: "{{ lo
+  okup('dict', vcenters) }}"
+  tags: antonis
+
+- name: Install packags from AUR for specific os_usage. Default is OPAP
+  aur:
+    use: yay
+    name:
+      - kubectl-bin
+      - azure-cli
+      - govmomi
+  when: os_usage == "OPAP"
+  become: yes
+  become_user: "{{ my_user }}"  
+  tags: aur_packages
+...

@@ -1,0 +1,60 @@
+---
+- name: Allow wheel group to have passwordless sudo
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: '^%wheel'
+    line: '%wheel ALL=(ALL) NOPASSWD: ALL'
+    validate: 'visudo -cf %s' 
+  tags: wheel
+
+- name: Create groups
+  group:
+    name: "{{ my_group }}"
+    state: present
+
+- name: Create users
+  user:
+    name: "{{ my_user }}"
+    comment: Antonis Karaminas
+    uid: 1100
+    password: '$6$5oVIf32iTpyUb$lk8vpLJmOhYTi77NwvATiIvURb2EH/AanVpY2e/9VJKl8WtBgThqeFf6rbsp0cSVAC6UTd5v.1uQuh9M2vjtB0'
+    groups: "{{ my_user }},wheel"
+    append: yes
+    state: present
+
+- name: Change root password
+  user:
+    name: root
+    password: '$6$5oVIf32iTpyUb$lk8vpLJmOhYTi77NwvATiIvURb2EH/AanVpY2e/9VJKl8WtBgThqeFf6rbsp0cSVAC6UTd5v.1uQuh9M2vjtB0'
+
+- name: Remove vagrant user
+  user:
+    name: vagrant
+    state: absent
+    remove: yes
+
+- name: Create Directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+    mode: '0750'
+    state: directory
+  with_items:
+     - "/home/{{ my_user }}/Documents"
+     - "/home/{{ my_user }}/Documents/Repositories"
+     - "/home/{{ my_user }}/Downloads"
+  tags: directories
+
+- name: Create Directories
+  file:
+    path: "{{ item }}"
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+    mode: '0700'
+    state: directory
+  with_items:
+     - "/home/{{ my_user }}/.ssh"
+  tags: directories
+...

@@ -1,0 +1,46 @@
+---
+#### REFERENCE  http://liuchengxu.org/posts/use-vim-as-a-python-ide/
+- name: Create directories for packages
+  file:
+    path: /home/{{ my_user }}/.vim/pack/{{ item }}/start
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+    state: directory
+    mode: '0755'
+  with_items:
+    - vim-airline
+    - auto-pairs
+    - ansible-vim
+    - NERDTree
+    - completor
+    - jedi-vim
+    - git-plugins
+
+- name: Git clone--Install vim plugins
+  git:
+    repo: "{{ item.git_url }}"
+    dest: "{{ item.package_directory }}"
+    update: yes
+  become: yes
+  become_user: "{{ my_user }}" 
+  with_items:
+    - { git_url: "https://github.com/vim-airline/vim-airline.git", package_directory: "/home/{{ my_user }}/.vim/pack/vim-airline/start/vim-airline" }
+    - { git_url: "https://github.com/jiangmiao/auto-pairs.git", package_directory: "/home/{{ my_user }}/.vim/pack/auto-pairs/start/auto-pairs" }
+    - { git_url: "https://github.com/pearofducks/ansible-vim.git", package_directory: "/home/{{ my_user }}/.vim/pack/ansible-vim/start/ansible-vim" }
+    - { git_url: "https://github.com/scrooloose/nerdtree.git", package_directory: "/home/{{ my_user }}/.vim/pack/NERDTree/start/NERDTree" }
+    - { git_url: "https://github.com/davidhalter/jedi-vim.git", package_directory: "/home/{{ my_user }}/.vim/pack/jedi-vim/start/jedi-vim" }
+    - { git_url: "https://github.com/maralla/completor.vim.git", package_directory: "/home/{{ my_user }}/.vim/pack/completor/start/completor" }
+    - { git_url: "https://github.com/dense-analysis/ale.git", package_directory: "/home/{{ my_user }}/.vim/pack/git-plugins/start/git-plugins" }
+
+- name: Install vimpdb
+  pip:
+    name:
+      - vimpdb
+
+- name: Copy vimrc to home .vimrc
+  copy:
+    src: ./files/vimrc
+    dest: /home/{{ my_user }}/.vimrc
+    owner: "{{ my_user }}"
+    group: "{{ my_group }}"
+...

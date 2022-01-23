@@ -1,0 +1,20 @@
+---
+- name: Enable snapd service
+  systemd:
+    name: snapd
+    enabled: yes
+    state: started
+    
+- name: Install snap viber
+  snap:
+    name: viber-mtd
+    channel: edge
+    state: present
+
+- name: Install snap azure-cli
+  snap:
+    name: azure-cli
+    channel: candidate
+    state: present
+
+...

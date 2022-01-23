@@ -1,0 +1,60 @@
+---
+- name: Install packages with pacman ansible module
+  pacman:
+    name:
+      - sudo
+      - base-devel
+      - binutils
+      - vim
+        #      - go
+      - nmap
+      - tree
+        #  - linux-lts
+        #- linux-lts-headers
+      - a52dec 
+      - faac 
+      - faad2 
+      - flac 
+      - jasper 
+      - lame 
+      - libdca 
+      - libdv 
+      - libmad 
+      - libmpeg2 
+      - libtheora 
+      - libvorbis 
+      - libxv 
+      - wavpack 
+      - x264 
+      - xvidcore 
+        # - vlc
+      - unrar 
+      - tar 
+      - rsync
+      - gst-libav
+      - htop
+      - gnu-netcat
+      - bind-tools
+      - wget
+      - zsh
+      - libsecret
+      - python-pip
+      - fzf
+      - sshpass
+      - fping
+      - whois
+      - tmux
+      - mlocate
+      - sshfs
+      - dmidecode
+      - lshw
+      - man-db
+      - arch-audit
+      - ccache
+      - lm_sensors
+        #- git-crypt
+      - colordiff
+      - pyenv
+    state: present
+  tags: pacman
+...
