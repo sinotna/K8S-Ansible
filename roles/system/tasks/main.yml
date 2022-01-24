@@ -16,4 +16,57 @@
     state: started
     enabled: yes
   tags: ntp
-...
+
+- name: Install packages with pacman ansible module
+  pacman:
+    name:
+      - sudo
+      - base-devel
+      - binutils
+      - vim
+      - tree
+      - gnu-netcat
+    state: present
+
+      #- name: Check if YAY is installed
+      #  shell: "pacman -Q |grep yay"
+      #  register: YAY_installation_status
+      #  check_mode: no
+      #  ignore_errors: yes
+      #  changed_when: False
+      #
+      #- name: YAY repo sync
+      #  git:
+      #    repo: https://aur.archlinux.org/yay.git
+      #    dest: "{{ repos_path }}/YAY"
+      #    update: yes
+      #  when:  "YAY_installation_status.rc  == 1"
+      #
+      #- name: YAY directory ownership
+      #  file:
+      #    path: "{{ repos_path }}/YAY"
+      #    owner: "{{ my_user }}"
+      #    group: "{{ my_user }}"
+      #    recurse: yes
+      #  when:  "YAY_installation_status.rc  == 1"
+      #
+      #- name: Install YAY
+      #  shell: |
+      #    cd "{{ repos_path }}/YAY"
+      #    makepkg -fsi --noconfirm
+      #  when:  "YAY_installation_status.rc  == 1"
+      #  become: yes
+      #  become_user: "{{ my_user }}"
+      #
+      #- name: Replace ccache in makepkg.conf
+      #  replace:
+      #    path: /etc/makepkg.conf
+      #    regexp: '!ccache'
+      #    replace: 'ccache'
+      #
+      #- name: Replace MAKEFLAGS in makepkg
+      #  replace:
+      #    path: /etc/makepkg.conf
+      #    regexp: '#MAKEFLAGS="-j2"'
+      #    replace: 'MAKEFLAGS="-j{{ansible_processor_vcpus}}"'
+      #...

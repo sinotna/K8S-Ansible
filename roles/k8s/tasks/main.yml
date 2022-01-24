@@ -1,5 +1,6 @@
 ---
 - name: Install K8S packages using yay
+  become: yes
   kewlfft.aur.aur:
     use: yay
     name:
