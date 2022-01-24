@@ -26,4 +26,10 @@
     groups: docker
     append: yes
     state: present
+
+- name: Enable systemd-docekr.service
+  systemd:
+    name: systemd-docker.service
+    state: started
+    enabled: yes
 ...
