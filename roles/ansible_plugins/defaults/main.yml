@@ -1,3 +1,0 @@
----
-ansible_modules: '/usr/share/ansible/plugins/modules/'
-...

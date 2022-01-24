@@ -8,7 +8,6 @@
       tags: k8s
     - role: docker
       tags: docker
-        #    - role: "{{ gui_type }}"
-        #      tags: gui
-        #      when: gui == "yes" 
+    - role: virtualbox
+      tags: virtualbox
 ...
