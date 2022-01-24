@@ -1,0 +1,17 @@
+---
+- name: Remove virtualbox-guest-utils-nox
+  pacman:
+    name: virtualbox-guest-utils-nox 
+    state: present
+  tags: virtualbox
+  when: virtualbox == "yes"
+
+- name: Enable virtual box Service
+  systemd:
+    name: vboxservice
+    state: started
+    enabled: yes
+  tags: virtualbox
+  when: virtualbox == "yes"
+
+...
