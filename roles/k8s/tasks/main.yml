@@ -5,5 +5,13 @@
     name:
       - kubelet
       - kubeadm
-  tags: k8s
+
+- name: Install packages with pacman ansible module
+  pacman:
+    name:
+      - ethtool
+      - ebtables
+      - socat
+      - conntrack-tools
+    state: present
 ...
