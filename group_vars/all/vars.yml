@@ -1,12 +1,8 @@
 ---
+K8S-Master-IP=192.168.2.200
+K8S-Node01-IP=192.168.2.201
+K8S-Node02-IP=192.168.2.202
 my_user: 'sinotna'
 my_group: 'sinotna'
 my_home: '/home/{{ my_user }}'
-os_usage: 'HOME' # Os installation usage : HOME or OPAP. The Default is OPAP
-installation_type: 'custom'   #Types= 'custom', 'vagrant'
-gui: "yes" 
-hardware_type: "custom" #'E7440', ''E6430','vagrant','custom'
-virtualbox: "yes"
-install_docker: "yes"
-gui_type: "KDE"
 ...

@@ -4,6 +4,8 @@
   roles:
     - role: system
       tags: system
+    - role: k8s
+      tags: k8s
     - role: docker
       tags: docker
         #    - role: "{{ gui_type }}"

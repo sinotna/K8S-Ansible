@@ -1,3 +1,0 @@
-#!/bin/bash
-# gpg -d -q .sshpassword.gpg > fifo ; sshpass -f fifo ssh a.karaminas@$1
-PASS=`gpg2 -d -q {{ my_home }}/.sshpassword.gpg` ; sshpass -p $PASS ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no {{ssh_opap_user}}@$1

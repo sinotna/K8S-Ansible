@@ -1,6 +1,0 @@
----
-- name: Enable wifi
-  shell: nmcli radio wifi on
-  changed_when: False
-  tags: wifi
-...

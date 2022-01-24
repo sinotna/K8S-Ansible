@@ -1,0 +1,9 @@
+---
+- name: Install K8S packages using yay
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - kubelet
+      - kubeadm
+  tags: k8s
+...
