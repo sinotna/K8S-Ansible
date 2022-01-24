@@ -27,9 +27,9 @@
     append: yes
     state: present
 
-- name: Enable systemd-docekr.service
+- name: Enable docker.service
   systemd:
-    name: systemd-docker.service
+    name: docker.service
     state: started
     enabled: yes
 ...
