@@ -1,9 +1,9 @@
 ---
-K8S-Master-IP=192.168.2.200
-K8S-Node01-IP=192.168.2.201
-K8S-Node02-IP=192.168.2.202
+K8S-Master-IP: '192.168.2.200'
+K8S-Node01-IP: '192.168.2.201'
+K8S-Node02-IP: '192.168.2.202'
 my_user: 'sinotna'
 my_group: 'sinotna'
 my_home: '/home/{{ my_user }}'
-virtualbox=yes
+virtualbox: 'yes'
 ...
