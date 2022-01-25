@@ -1,6 +1,11 @@
 ---
+- name: iptables uninstalled. Conflict with iptables-nft
+  pacman:
+    name: iptables
+    state: absent
+    force: yes
+
 - name: Install K8S packages using yay
-  become: yes
   kewlfft.aur.aur:
     use: yay
     name:
@@ -11,7 +16,6 @@
   pacman:
     name:
       - ethtool
-      - ebtables
       - socat
       - conntrack-tools
     state: present

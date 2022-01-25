@@ -9,5 +9,6 @@ Nodes:
 my_user: 'sinotna'
 my_group: 'sinotna'
 my_home: '/home/{{ my_user }}'
+repos_path: '/home/{{ my_user }}'
 virtualbox: "yes"
 ...
