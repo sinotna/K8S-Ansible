@@ -1,0 +1,33 @@
+{% raw %}
+#---------------------------------------------------------------------
+# Example configuration.  See the full configuration manual online.
+#
+#   http://www.haproxy.org/download/1.7/doc/configuration.txt
+#
+#---------------------------------------------------------------------
+
+global
+    maxconn     20000
+    log         127.0.0.1 local0
+    user        haproxy
+    chroot      /usr/share/haproxy
+    pidfile     /run/haproxy.pid
+    daemon
+
+frontend k8s
+    bind            :6443
+    mode            tcp
+    option          tcplog
+    log             global
+    option          dontlognull
+    timeout client  30s
+    default_backend k8s-control-plane
+
+backend k8s-control-plane
+    mode            tcp
+    balance         roundrobin
+    timeout         connect 30s
+    timeout         server  30s
+{% endraw %}
+    server          k8s-node01 {{ K8S-Node01-IP }}:6443 check
+    server          k8s-node02 {{ K8S-Node01-IP }}:6443 check
