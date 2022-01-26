@@ -1,10 +1,10 @@
 ---
-K8S-Master-IP: '192.168.2.200'
-K8S-Node01-IP: '192.168.2.201'
-K8S-Node02-IP: '192.168.2.202'
+K8S_Master_IP: '192.168.2.200'
+K8S_Node01_IP: '192.168.2.201'
+K8S_Node02_IP: '192.168.2.202'
 Nodes:
-  - K8S-Node01-IP
-  - K8S-Node02-IP
+  - K8S-Node01_
+  - K8S-Node02_
 
 my_user: 'sinotna'
 my_group: 'sinotna'
