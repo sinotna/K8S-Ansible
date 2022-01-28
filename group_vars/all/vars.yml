@@ -11,4 +11,11 @@ my_group: 'sinotna'
 my_home: '/home/{{ my_user }}'
 repos_path: '/home/{{ my_user }}'
 virtualbox: "yes"
+
+### Docker HAPROXY
+docker_file_folder: "/root/Dockerfile"
+docker_image_name: "HAProxy"
+docker_container_name: "K8S_HAProxy"
+haproxy_stats_port: "8404"
+k8s_port: "6443"
 ...
