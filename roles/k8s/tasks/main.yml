@@ -59,4 +59,5 @@
       path: "{{ docker_folder }}"
     state: present
     source: build
+  when: hostname == "K8S-Master"
 ...
