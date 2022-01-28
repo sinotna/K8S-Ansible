@@ -19,4 +19,35 @@
       - socat
       - conntrack-tools
     state: present
+    
+### Install HAProxy
+- name: Create /etc/haproxy directory on K8S-Master
+  file:
+    path: /etc/haproxy
+    state: directory
+    mode: '0755'
+  when: hostname == "K8S-Master"
+
+- name: Copy HAProxy configuration to K8S master node
+  template:
+    src: ./templates/haproxy.cfg.j2
+    dest: /etc/haproxy/haproxy.cfg
+    mode: '0644'
+  when: hostname == "K8S-Master"
+
+- name: Create directory for Dockerfile
+  file:
+    path: /root/Dockerfile
+    state: directory
+    mode: '0755'
+  when: hostname == "K8S-Master"
+
+- name: Copy HAProxy configuration to K8S master node
+  copy:
+    src: files/Dockerfile
+    dest: /root/Dockerfile
+    owner: root
+    group: root
+    mode: '0600'
+  when: hostname == "K8S-Master"
 ...
