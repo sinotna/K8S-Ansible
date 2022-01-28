@@ -1,4 +1,7 @@
 # K8S-Ansible
+i************************* 
+PREPEI NA GINEI REBOOT 
+μετά από updates/installs αλλιως χτυπάνε διάφορα
 
 
 The installation will be based on this link :https://dnaeon.github.io/install-and-configure-k8s-on-arch-linux/

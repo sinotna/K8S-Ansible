@@ -14,8 +14,8 @@ virtualbox: "yes"
 
 ### Docker HAPROXY
 docker_file_folder: "/root/Dockerfile"
-docker_image_name: "HAProxy"
-docker_container_name: "K8S_HAProxy"
+docker_image_name: "haproxy"
+docker_container_name: "k8s_haproxy"
 haproxy_stats_port: "8404"
 k8s_port: "6443"
 ...
