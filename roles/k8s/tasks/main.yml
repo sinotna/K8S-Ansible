@@ -50,4 +50,13 @@
     group: root
     mode: '0600'
   when: hostname == "K8S-Master"
+
+- name: Build docker image from Dockerfile
+  docker_image:
+    name: "{{ docker_image_name }}"
+    build:
+      pull: yes
+      path: "{{ docker_folder }}"
+    state: present
+    source: build
 ...
