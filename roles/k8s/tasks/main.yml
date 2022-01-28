@@ -5,6 +5,12 @@
     state: absent
     force: yes
 
+- name: Install pip3 on K8S-Master. It is needed for building the docker image
+  pacman:
+    name: python-pip
+    state: present
+  when: hostname == "K8S-Master"
+
 - name: Install K8S packages using yay
   kewlfft.aur.aur:
     use: yay
