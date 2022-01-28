@@ -69,17 +69,19 @@
     source: build
   when: hostname == "K8S-Master"
 
-- name: Build docker image from Dockerfile
+- name: Create docker container
   docker_container:
     name: "{{ docker_container_name }}"
-    ports:
+    image: "{{ docker_image_name }}"
+    published_ports:
       - 6443:6443
       - 8404:8404
     mounts:
       - source: /etc/haproxy
         target: /usr/local/etc/haproxy
+        type: bind
         read_only: yes
-    state: present
-    source: build
+    state: started
   when: hostname == "K8S-Master"
+  tags: test1
 ...
