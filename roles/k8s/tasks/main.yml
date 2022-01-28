@@ -56,7 +56,7 @@
     name: "{{ docker_image_name }}"
     build:
       pull: yes
-      path: "{{ docker_folder }}"
+      path: "{{ docker_file_folder }}"
     state: present
     source: build
   when: hostname == "K8S-Master"
