@@ -68,4 +68,14 @@
     state: present
     source: build
   when: hostname == "K8S-Master"
+
+- name: Build docker image from Dockerfile
+  docker_container:
+    name: "{{ docker_container_name }}"
+    ports:
+      - 16443:6443
+      - 8404:8404
+    state: present
+    source: build
+  when: hostname == "K8S-Master"
 ...
