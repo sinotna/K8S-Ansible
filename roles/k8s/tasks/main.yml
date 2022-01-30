@@ -73,8 +73,12 @@
   docker_container:
     name: "{{ docker_container_name }}"
     ports:
-      - 16443:6443
+      - 6443:6443
       - 8404:8404
+    mounts:
+      - source: /etc/haproxy
+        target: /usr/local/etc/haproxy
+        read_only: yes
     state: present
     source: build
   when: hostname == "K8S-Master"
