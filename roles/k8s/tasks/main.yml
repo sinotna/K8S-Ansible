@@ -73,6 +73,7 @@
   docker_container:
     name: "{{ docker_container_name }}"
     image: "{{ docker_image_name }}"
+    restart_policy: always
     published_ports:
       - 6443:6443
       - 8404:8404
