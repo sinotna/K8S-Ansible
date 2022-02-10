@@ -84,5 +84,10 @@
         read_only: yes
     state: started
   when: hostname == "K8S-Master"
-  tags: test1
+
+- name: Enable systemd-timesyncd.service
+  systemd:
+    name: kubelet.service
+    state: started
+    enabled: yes
 ...
