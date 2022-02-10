@@ -19,7 +19,13 @@
     name:
       - kubelet
       - kubeadm
-      - kubectl when: hostname == "K8S-Master"
+
+- name: Install K8S packages using yay
+  kewlfft.aur.aur:
+    use: yay
+    name:
+      - kubectl 
+  when: hostname == "K8S-Master"
 
 - name: Install packages with pacman ansible module
   pacman:
@@ -43,6 +49,12 @@
     dest: /etc/haproxy/haproxy.cfg
     mode: '0644'
   when: hostname == "K8S-Master"
+
+- name: Copy HAProxy configuration to K8S master node
+  template:
+    src: ./templates/hosts.j2
+    dest: /etc/hosts
+    mode: '0644'
 
 - name: Create directory for Dockerfile
   file:

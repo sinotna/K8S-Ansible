@@ -2,6 +2,9 @@
 K8S_Master_IP: '192.168.2.200'
 K8S_Node01_IP: '192.168.2.201'
 K8S_Node02_IP: '192.168.2.202'
+K8S_Master_hostname: 'k8s-master'
+K8S_Node01_hostname: 'k8s-node01'
+K8S_Node02_hostname: 'k8s-node02'
 Nodes:
   - K8S-Node01_
   - K8S-Node02_
