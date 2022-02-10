@@ -19,6 +19,7 @@
     name:
       - kubelet
       - kubeadm
+      - kubectl when: hostname == "K8S-Master"
 
 - name: Install packages with pacman ansible module
   pacman:
